@@ -1,0 +1,82 @@
+<div class="container">
+  <header>
+    <h1>Receipt Processor</h1>
+    <p>Upload receipts (.png, .jpg, .pdf, .txt) to extract and analyze spending data.</p>
+  </header>
+
+  <main>
+    <div class="grid-container">
+      <div class="left-column">
+        <section class="card">
+          <h2>Upload New Receipt</h2>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*,application/pdf,text/plain">
+          <button (click)="onUpload()" [disabled]="!selectedFile">Upload</button>
+          <div *ngIf="statusMessage" class="status">{{ statusMessage }}</div>
+        </section>
+        <section class="card" *ngIf="stats">
+          <h2>Overall Statistics</h2>
+          <div class="stats-grid">
+            <div><span>Total Spending</span><strong>{{ stats.total_spending | currency:'INR' }}</strong></div>
+            <div><span>Receipt Count</span><strong>{{ stats.receipt_count }}</strong></div>
+            <div><span>Average Spend</span><strong>{{ stats.average_spending | currency: 'INR' }}</strong></div>
+            <div><span>Median Spend</span><strong>{{ stats.median_spending | currency: 'INR' }}</strong></div>
+          </div>
+        </section>
+      </div>
+      <div class="right-column">
+        <section class="card">
+          <h2>Monthly Spending</h2>
+          <div class="chart-container">
+            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Top Vendors</h2>
+          <div class="chart-container">
+            <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType"></canvas>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <section class="card">
+      <h2>Transaction History</h2>
+      <form class="filter-form" (submit)="applyFilters()">
+        <input type="text" placeholder="Search by vendor..." [(ngModel)]="filters.search" name="search">
+        <input type="date" [(ngModel)]="filters.start_date" name="start_date">
+        <input type="date" [(ngModel)]="filters.end_date" name="end_date">
+        <select [(ngModel)]="filters.sort_by" name="sort_by">
+          <option value="date">Sort by Date</option>
+          <option value="vendor">Sort by Vendor</option>
+          <option value="total">Sort by Total</option>
+        </select>
+        <select [(ngModel)]="filters.order" name="order">
+          <option value="desc">Descending</option>
+          <option value="asc">Ascending</option>
+        </select>
+        <button type="submit">Apply</button>
+        <button type="button" (click)="resetFilters()">Reset</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Vendor</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Actions</th> </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="receipts.length === 0"><td colspan="4">No receipts match the current filters.</td></tr>
+          <tr *ngFor="let receipt of receipts">
+            <td>{{ receipt.vendor || 'N/A' }}</td>
+            <td>{{ receipt.date | date:'shortDate' || 'N/A' }}</td>
+            <td>{{ receipt.total != null ? (receipt.total | currency:'INR') : 'N/A' }}</td>
+            <td>
+              <button class="delete-btn" (click)="deleteReceipt(receipt.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
