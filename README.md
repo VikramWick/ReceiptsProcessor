@@ -1,7 +1,3 @@
-Of course. Here is a clear and comprehensive `README.md` file for your project, following the structure required by your assignment.
-
-You can copy and paste this directly into the `README.md` file in the root of your GitHub repository.
-
 -----
 
 # Full-Stack Receipt Processor
