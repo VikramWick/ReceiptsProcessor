@@ -103,3 +103,13 @@ The application will now be available at `http://localhost:4200`.
   * **Single Currency**: The application currently assumes all amounts are in the same currency and does not perform currency detection or conversion.
   * **No User Authentication**: The application is designed for a single user and does not have an authentication system. All data is publicly accessible on the local network.
   * **Vendor Parsing**: The vendor name parsing relies on a predefined list of known vendors for best results. For unknown vendors, it defaults to the first line of the text, which may not always be accurate.
+
+
+User Interface:
+
+<img width="1460" height="572" alt="Screenshot 2025-07-19 at 10 52 41 PM" src="https://github.com/user-attachments/assets/043d9c87-3c7c-4b5c-b301-68699322c7ba" />
+
+<img width="1460" height="766" alt="Screenshot 2025-07-19 at 10 53 09 PM" src="https://github.com/user-attachments/assets/d7578610-42ed-40ea-91f5-1b544ec11056" />
+
+
+
